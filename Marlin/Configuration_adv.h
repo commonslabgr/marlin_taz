@@ -89,7 +89,6 @@
 #define EXTRUDER_FAN_SETUP 3
 #define EX_FAN_0 FAN_PIN
 #endif
-
 #define EX_FAN_1 FAN1_PIN
 
 #if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP == 4
@@ -101,7 +100,7 @@
     #define EXTRUDER_0_AUTO_FAN_PIN   EX_FAN_1
     #define EXTRUDER_1_AUTO_FAN_PIN   EX_FAN_1
     #define EXTRUDER_2_AUTO_FAN_PIN   -1
-    #define EXTRUDER_AUTO_FAN_TEMPERATURE 50
+    #define EXTRUDER_AUTO_FAN_TEMPERATURE 40
     #define EXTRUDER_AUTO_FAN_SPEED   255  // == full speed
 #endif
 //===========================================================================

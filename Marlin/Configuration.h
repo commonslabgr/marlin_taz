@@ -17,10 +17,8 @@
 // build by the user have been successfully uploaded into firmware.
 #define STRING_VERSION_CONFIG_H __DATE__ " " __TIME__ // build date and time
 #define STRING_CONFIG_H_AUTHOR "(Aleph Objects, Inc, TAZ  config)" // Who made the changes.
-// Define the usage of E3DV6 nozzle
+// Define the usage for E3DV6 nozzle
 #define E3DV6
-//Define the usage of pump for bio-printing
-#define PUMP_NOZZLE
 
 // SERIAL_PORT selects which serial port should be used for communication with the host.
 // This allows the connection of wireless adapters (for instance) to non-default port pins.
@@ -477,6 +475,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define HIPS_PREHEAT_HOTEND_TEMP 240
 #define HIPS_PREHEAT_HPB_TEMP 110
 #ifdef E3DV6
+#define HIPS_PREHEAT_FAN_SPEED 255
 #else
 #define HIPS_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
 #endif
@@ -492,7 +491,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define BRIDGE_PREHEAT_HOTEND_TEMP 240
 #define BRIDGE_PREHEAT_HPB_TEMP 100
 #ifdef E3DV6
-BRIDGE_PREHEAT_FAN_SPEED 255
+#define BRIDGE_PREHEAT_FAN_SPEED 255
 #else
 #define BRIDGE_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
 #endif
