@@ -126,8 +126,11 @@
 // 51 is 100k thermistor - EPCOS (1k pullup)
 // 52 is 200k thermistor - ATC Semitec 204GT-2 (1k pullup)
 // 55 is 100k thermistor - ATC Semitec 104GT-2 (Used in ParCan & J-Head) (1k pullup)
-
-#define TEMP_SENSOR_0 5
+#ifdef SYRINGE_M5  
+  #define TEMP_SENSOR_0 0
+#else
+  #define TEMP_SENSOR_0 5
+#endif
 //~ #define TEMP_SENSOR_1 5
 //~ #define TEMP_SENSOR_2 0
 #define TEMP_SENSOR_BED 7
@@ -144,7 +147,12 @@
 // The minimal temperature defines the temperature below which the heater will not be enabled It is used
 // to check that the wiring to the thermistor is not broken.
 // Otherwise this would lead to the heater being powered on all the time.
-#define HEATER_0_MINTEMP 5
+/*#ifdef SYRINGE_M5  
+  #define HEATER_0_MINTEMP 0
+#else
+*/
+  #define HEATER_0_MINTEMP 5
+//#endif
 #define HEATER_1_MINTEMP 5
 #define HEATER_2_MINTEMP 5
 #define BED_MINTEMP 5
