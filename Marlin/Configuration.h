@@ -489,43 +489,24 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 // Preheat Constants
 #define PLA_PREHEAT_HOTEND_TEMP 205
 #define PLA_PREHEAT_HPB_TEMP 60
-#ifdef E3DV6
-  #define PLA_PREHEAT_FAN_SPEED 255
-#else
-  #define PLA_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
-#endif //E3DV6
+#define PLA_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
+
 
 #define HIPS_PREHEAT_HOTEND_TEMP 240
 #define HIPS_PREHEAT_HPB_TEMP 110
-#ifdef E3DV6
-  #define HIPS_PREHEAT_FAN_SPEED 255
-#else
-  #define HIPS_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
-#endif //E3DV6
+#define HIPS_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
 
 #define ABS_PREHEAT_HOTEND_TEMP 240
 #define ABS_PREHEAT_HPB_TEMP 110
-#ifdef E3DV6
-  #define ABS_PREHEAT_FAN_SPEED 255
-#else
-  #define ABS_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
-#endif //E3DV6
+#define ABS_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
 
 #define BRIDGE_PREHEAT_HOTEND_TEMP 240
 #define BRIDGE_PREHEAT_HPB_TEMP 100
-#ifdef E3DV6
-  #define BRIDGE_PREHEAT_FAN_SPEED 255
-#else
-  #define BRIDGE_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
-#endif //E3DV6
+#define BRIDGE_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
 
 #define PCTPE_PREHEAT_HOTEND_TEMP 235
 #define PCTPE_PREHEAT_HPB_TEMP 100
-#ifdef E3DV6
-  #define PCTPE_PREHEAT_FAN_SPEED 255
-#else
-  #define PCTPE_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
-#endif //E3DV6
+#define PCTPE_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
 
 #define ALLOY_910_PREHEAT_HOTEND_TEMP 240
 #define ALLOY_910_PREHEAT_HPB_TEMP 100
