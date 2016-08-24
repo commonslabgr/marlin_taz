@@ -17,8 +17,12 @@
 // build by the user have been successfully uploaded into firmware.
 #define STRING_VERSION_CONFIG_H __DATE__ " " __TIME__ // build date and time
 #define STRING_CONFIG_H_AUTHOR "(Aleph Objects, Inc, TAZ  config)" // Who made the changes.
-// Define the usage for E3DV6 nozzle
-#define E3DV6
+
+// Define the usage of a E3DV6 hot-end, which needs a cooling fan to be running whenever it is hot.
+//#define E3DV6
+
+// Define the usage of a SYRINGE_M5 extruder, which uses a syringe and an M5 metric thread on the plunger.
+#define SYRINGE_M5
 
 // SERIAL_PORT selects which serial port should be used for communication with the host.
 // This allows the connection of wireless adapters (for instance) to non-default port pins.
@@ -263,9 +267,13 @@
 #define PREVENT_DANGEROUS_EXTRUDE
 //if PREVENT_DANGEROUS_EXTRUDE is on, you can still disable (uncomment) very long bits of extrusion separately.
 #define PREVENT_LENGTHY_EXTRUDE
-
-#define EXTRUDE_MINTEMP 120
 #define EXTRUDE_MAXLENGTH (X_MAX_LENGTH+Y_MAX_LENGTH) //prevent extrusion of very large distances.
+
+#ifdef SYRINGE_M5
+  #define EXTRUDE_MINTEMP 5 // The syringe extruder needs not heating, so cold extrusion is okay.
+#else
+  #define EXTRUDE_MINTEMP 120
+#endif 
 
 //===========================================================================
 //=============================Mechanical Settings===========================
@@ -427,15 +435,24 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define NUM_AXIS 4 // The axis order in all axis related arrays is X, Y, Z, E
 #define HOMING_FEEDRATE {50*60, 50*60, 8*60, 0}  // set the homing speeds (mm/min)
 
+
+#ifdef SYRINGE_M5
+// default settings for SYRINGE_M5 (M5 = 0.8mm / round, 200 steps/round, 16 uSteps/step => 16 * 200 / (0.8) = 4000 uSteps/mm)
+  #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1600,4000}  // default steps per unit for TAZ {X,Y,Z,E} 
+  #define DEFAULT_E1_STEPS_PER_UNIT     800                    // default steps per unit for second extruder
+  #define DEFAULT_MAX_FEEDRATE          {800, 800, 8, 4}      // (mm/sec)
+  #define DEFAULT_MAX_ACCELERATION      {4500,4500,100,50}  // X, Y, Z, E maximum start speed for accelerated moves.
+  #define DEFAULT_ACCELERATION          500    // X, Y, Z and E max acceleration in mm/s^2 for printing moves
+  #define DEFAULT_RETRACT_ACCELERATION  3000   // X, Y, Z and E max acceleration in mm/s^2 for retracts
+#else
 // default settings
-
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1600,833}  // default steps per unit for TAZ {X,Y,Z,E}
-#define DEFAULT_E1_STEPS_PER_UNIT     800                    // default steps per unit for second extruder
-#define DEFAULT_MAX_FEEDRATE          {800, 800, 8, 40}      // (mm/sec)
-#define DEFAULT_MAX_ACCELERATION      {9000,9000,100,10000}  // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
-
-#define DEFAULT_ACCELERATION          500    // X, Y, Z and E max acceleration in mm/s^2 for printing moves
-#define DEFAULT_RETRACT_ACCELERATION  3000   // X, Y, Z and E max acceleration in mm/s^2 for retracts
+  #define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5,100.5,1600,833}  // default steps per unit for TAZ {X,Y,Z,E}
+  #define DEFAULT_E1_STEPS_PER_UNIT     800                    // default steps per unit for second extruder
+  #define DEFAULT_MAX_FEEDRATE          {800, 800, 8, 40}      // (mm/sec)
+  #define DEFAULT_MAX_ACCELERATION      {9000,9000,100,10000}  // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
+  #define DEFAULT_ACCELERATION          500    // X, Y, Z and E max acceleration in mm/s^2 for printing moves
+  #define DEFAULT_RETRACT_ACCELERATION  3000   // X, Y, Z and E max acceleration in mm/s^2 for retracts
+#endif //SYRINGE_M5
 
 // Offset of the extruders (uncomment if using more than one and relying on firmware to position when changing).
 // The offset has to be X=0, Y=0 for the extruder 0 hotend (default extruder).
@@ -444,9 +461,15 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define EXTRUDER_OFFSET_Y {0.0, -52.00}  // (in mm) for each extruder, offset of the hotend on the Y axis
 
 // The speed change that does not require acceleration (i.e. the software might assume it can be done instantaneously)
-#define DEFAULT_XYJERK                8.0    // (mm/sec)
-#define DEFAULT_ZJERK                 0.4     // (mm/sec)
-#define DEFAULT_EJERK                 10.0    // (mm/sec)
+#ifdef SYRINGE_M5
+  #define DEFAULT_XYJERK                4.0    // (mm/sec)
+  #define DEFAULT_ZJERK                 0.4     // (mm/sec)
+  #define DEFAULT_EJERK                 0.2    // (mm/sec)
+#else
+  #define DEFAULT_XYJERK                8.0    // (mm/sec)
+  #define DEFAULT_ZJERK                 0.4     // (mm/sec)
+  #define DEFAULT_EJERK                 10.0    // (mm/sec)
+#endif //SYRINGE_M5
 
 //===========================================================================
 //=============================Additional Features===========================
@@ -467,42 +490,42 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define PLA_PREHEAT_HOTEND_TEMP 205
 #define PLA_PREHEAT_HPB_TEMP 60
 #ifdef E3DV6
-#define PLA_PREHEAT_FAN_SPEED 255
+  #define PLA_PREHEAT_FAN_SPEED 255
 #else
-#define PLA_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
-#endif
+  #define PLA_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
+#endif //E3DV6
 
 #define HIPS_PREHEAT_HOTEND_TEMP 240
 #define HIPS_PREHEAT_HPB_TEMP 110
 #ifdef E3DV6
-#define HIPS_PREHEAT_FAN_SPEED 255
+  #define HIPS_PREHEAT_FAN_SPEED 255
 #else
-#define HIPS_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
-#endif
+  #define HIPS_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
+#endif //E3DV6
 
 #define ABS_PREHEAT_HOTEND_TEMP 240
 #define ABS_PREHEAT_HPB_TEMP 110
 #ifdef E3DV6
-#define ABS_PREHEAT_FAN_SPEED 255
+  #define ABS_PREHEAT_FAN_SPEED 255
 #else
-#define ABS_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
-#endif
+  #define ABS_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
+#endif //E3DV6
 
 #define BRIDGE_PREHEAT_HOTEND_TEMP 240
 #define BRIDGE_PREHEAT_HPB_TEMP 100
 #ifdef E3DV6
-#define BRIDGE_PREHEAT_FAN_SPEED 255
+  #define BRIDGE_PREHEAT_FAN_SPEED 255
 #else
-#define BRIDGE_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
-#endif
+  #define BRIDGE_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
+#endif //E3DV6
 
 #define PCTPE_PREHEAT_HOTEND_TEMP 235
 #define PCTPE_PREHEAT_HPB_TEMP 100
 #ifdef E3DV6
-#define PCTPE_PREHEAT_FAN_SPEED 255
+  #define PCTPE_PREHEAT_FAN_SPEED 255
 #else
-#define PCTPE_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
-#endif
+  #define PCTPE_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
+#endif //E3DV6
 
 #define ALLOY_910_PREHEAT_HOTEND_TEMP 240
 #define ALLOY_910_PREHEAT_HPB_TEMP 100
