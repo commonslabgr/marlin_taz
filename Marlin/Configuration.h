@@ -19,10 +19,10 @@
 #define STRING_CONFIG_H_AUTHOR "(Aleph Objects, Inc, TAZ  config)" // Who made the changes.
 
 // Define the usage of a E3DV6 hot-end, which needs a cooling fan to be running whenever it is hot.
-//#define E3DV6
+#define E3DV6
 
 // Define the usage of a SYRINGE_M5 extruder, which uses a syringe and an M5 metric thread on the plunger.
-#define SYRINGE_M5
+//#define SYRINGE_M5
 
 // SERIAL_PORT selects which serial port should be used for communication with the host.
 // This allows the connection of wireless adapters (for instance) to non-default port pins.

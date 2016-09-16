@@ -83,12 +83,11 @@
 // If set to  3 EX_FAN_0 will be Contorled by M106 S255 and EX_FAN_1 will be controled by M106 P1 S255
 // If set to  4 EX_FAN_0 will be used as a nozzle cooling fan and EX_FAN_1 will be used as a heat sink fan
 #ifdef E3DV6
-#define EXTRUDER_FAN_SETUP 4
-#define EX_FAN_0 FAN1_PIN
+ #define EXTRUDER_FAN_SETUP 4
 #else
-#define EXTRUDER_FAN_SETUP 3
-#define EX_FAN_0 FAN_PIN
+ #define EXTRUDER_FAN_SETUP 3
 #endif
+#define EX_FAN_0 FAN_PIN
 #define EX_FAN_1 FAN1_PIN
 
 #if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP == 4
