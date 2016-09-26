@@ -82,14 +82,17 @@
 // If set to  2 EX_FAN_0 and EX_FAN_1 will be used as nozzle cooling fan and will switch between active nozzles
 // If set to  3 EX_FAN_0 will be Contorled by M106 S255 and EX_FAN_1 will be controled by M106 P1 S255
 // If set to  4 EX_FAN_0 will be used as a nozzle cooling fan and EX_FAN_1 will be used as a heat sink fan
-#ifdef E3DV6
-#define EXTRUDER_FAN_SETUP 4
-#else
 #define EXTRUDER_FAN_SETUP 3
-#endif
-
 #define EX_FAN_0 FAN_PIN
 #define EX_FAN_1 FAN1_PIN
+
+#ifdef E3DV6
+#if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP == 3
+    #define EXTRUDER_0_AUTO_FAN_PIN   EX_FAN_1
+    #define EXTRUDER_AUTO_FAN_TEMPERATURE 40
+    #define EXTRUDER_AUTO_FAN_SPEED   255  // == full speed
+#endif
+#endif //E3DV6
 
 #if defined(EXTRUDER_FAN_SETUP) && EXTRUDER_FAN_SETUP == 4
     // Extruder cooling fans
@@ -98,7 +101,7 @@
     // Multiple extruders can be assigned to the same pin in which case 
     // the fan will turn on when any selected extruder is above the threshold.
     #define EXTRUDER_0_AUTO_FAN_PIN   EX_FAN_1
-    #define EXTRUDER_1_AUTO_FAN_PIN   EX_FAN_1
+    #define EXTRUDER_1_AUTO_FAN_PIN   -1
     #define EXTRUDER_2_AUTO_FAN_PIN   -1
     #define EXTRUDER_AUTO_FAN_TEMPERATURE 40
     #define EXTRUDER_AUTO_FAN_SPEED   255  // == full speed
